@@ -30,10 +30,6 @@ export default {
 </script>
 
 <style scoped>
-@font-face {
-    font-family: Lobster;
-    src: url('~@/assets/Fonts/Lobster.otf');
-}
 
 .Statement-Container {
     width: 45vw;
@@ -43,8 +39,8 @@ export default {
 
 h2 {
     margin-bottom: 3vw;
-    font-family: Lobster;
     font-size: 2vw;
     font-weight: 100;
+    color: black;
 }
 </style>

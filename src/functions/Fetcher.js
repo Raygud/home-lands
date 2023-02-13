@@ -1,6 +1,7 @@
-export function fetchData(url) {
+export function fetchData(url,token) {
     return fetch(url, {
         headers: {
+            'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json'
         }
     })
