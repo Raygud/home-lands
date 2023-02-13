@@ -1,30 +1,48 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view/>
+  <NavBar />
+  <router-view />
 </template>
 
+<script>
+import NavBar from './components/NavBar.vue';
+import { mapMutations } from 'vuex';
+
+export default {
+  setup() {
+    return {};
+  },
+  components: { NavBar },
+
+  mounted() {
+    const data = JSON.parse(localStorage.getItem("UserAuth"))
+    console.log(data)
+    this.setAuthData(data);
+
+  },
+  computed: {
+    authData() {
+      return this.$store.state.authData;
+    }
+  },
+  methods: {
+    ...mapMutations(['setAuthData']),
+  },
+}
+</script>
+
 <style lang="scss">
+* {
+  margin: 0;
+  padding: 0;
+  text-decoration: none;
+  list-style: none;
+}
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
-}
-
-nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
+  color: #ffffff;
 }
 </style>
