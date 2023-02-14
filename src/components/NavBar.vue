@@ -4,11 +4,16 @@
             <router-link class="Logo" to="/">HomeLands</router-link>
             <ol>
                 <router-link to="/">Forside</router-link> |
-                <router-link to="/Cart">Boliger til salg</router-link>
+                <router-link to="/boliger-til-salg">Boliger til salg</router-link>
                 <router-link v-if="!authData" to="/Login"> | Login</router-link>
             </ol>
 
-            <input type="text">
+            <div class="Nav-Search-bar">
+                <input type="text" placeholder="Indtast søgord">
+                <button>
+                    <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
+                </button>
+            </div>
 
             <div @click="DropDown" class="User-Tag" v-if="authData">
                 <span>{{ authData? authData.user.firstname.substr(0, 1): null }}</span>
@@ -55,6 +60,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@font-face {
+    font-family: OdibeeSans;
+    src: url(@/assets/fonts/OdibeeSans-Regular.ttf);
+}
+
 .Inverted-Triangle {
 
     position: absolute;
@@ -93,19 +103,51 @@ header {
             &.router-link-exact-active {
                 color: #AF7627;
             }
+
+            &:hover {
+                color: #AF7627;
+            }
+        }
+
+        .Nav-Search-bar {
+            border-radius: 5px;
+            height: 45%;
+            background-color: white;
+            display: flex;
+
+            input {
+                background-color: rgba(255, 255, 255, 0);
+                border: none;
+                padding-left: 0.5vw;
+
+                &:focus {
+                    outline: none;
+                }
+            }
+
+            button {
+                height: 100%;
+                padding: 0.25vw;
+                background-color: #999999;
+                border: none;
+                border-top-right-radius: 5px;
+                border-bottom-right-radius: 5px;
+                color: white;
+            }
         }
     }
 
     .Logo {
         position: absolute;
         left: 0;
-        top: 15%;
+        top: 35%;
         background-color: #AF7627;
-        padding: 1vw;
+        padding: 0.5vw 1vw 0.5vw 1vw;
         font-size: 2.4vw;
         color: #ffffff !important;
         z-index: 99;
         border: 2px solid black;
+        font-family: OdibeeSans;
     }
 }
 
@@ -131,8 +173,8 @@ header {
     .User-Tag__Drop-Down {
         position: absolute;
         top: 110%;
-        border-radius: 15px;
-        right: 0;
+        border-radius: 5px;
+        right: 1vw;
         width: 10vw;
         height: auto;
         box-shadow: 0.2vw 0.2vw 0.2vw 0.2vw rgba(0, 0, 0, 0.277);

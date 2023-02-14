@@ -6,8 +6,17 @@
             <div class="grid-container">
                 <div class="grid-item" v-for="(employee, index) in staff" :key="index">
                     <img :src="employee.image" alt="">
-                    <div>{{ employee.firstname }} {{ employee.lastname }}</div>
-                    <div>{{ employee.position }}</div>
+                    <div class="Staff-Hover-Container">
+                        <div class="Staff-Info">
+                            <h3>{{ employee.firstname }} {{ employee.lastname }}</h3>
+                            <div>{{ employee.position }}</div>
+                        </div>
+                        <div class="Staff-Contact">
+                            <div>Email: {{ employee.email }}</div>
+                            <div>Mobil: {{ employee.phone }}</div>
+                        </div>
+
+                    </div>
                 </div>
             </div>
         </div>
@@ -46,27 +55,27 @@ export default {
 <style lang="scss" scoped>
 .Grid-Position {
     position: relative;
-    background-color: aqua;
 }
 
 .grid-container {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 4vw;
+    gap: 2vw;
     width: 85%;
     margin: auto;
-    margin-bottom: 2vw;
+    margin-bottom: 4vw;
 
     .grid-item {
+        position: relative;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        padding: 1.5vw;
         text-align: left;
         background-color: rgb(255, 255, 255);
         box-shadow: 0.1vw 0.1vw 1vw 0.1vw rgba(0, 0, 0, 0.114);
         border: 1px solid black;
         color: black;
+        overflow: hidden;
 
         img {
             width: 100%;
@@ -96,6 +105,43 @@ export default {
                 }
             }
         }
+
+        &:hover {
+            .Staff-Hover-Container {
+                background-color: rgba(0, 0, 0, 0.479);
+                color: white;
+            }
+
+            .Staff-Contact {
+                height: 2vw;
+                overflow: hidden;
+            }
+        }
+    }
+}
+
+.Staff-Hover-Container {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding-left: 1vw;
+    background-color: rgba(255, 255, 255, 0.74);
+    transition: 300ms ease-in-out;
+
+    .Staff-Info {
+        padding-top: 0.3vw;
+        padding-bottom: 0.3vw;
+
+        h3 {
+
+            padding-bottom: 0.3vw;
+        }
+    }
+
+    .Staff-Contact {
+        transition: 300ms ease-in-out;
+        height: 0vw;
+        overflow: hidden;
     }
 }
 </style>

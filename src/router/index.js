@@ -3,15 +3,15 @@ import HomeView from '../views/HomeView.vue'
 import store from '@/store';
 
 
-const guard = (to, from, next) => {
+// const guard = (to, from, next) => {
 
-  if (store.state.authData) {
-    next();
-  } else {
-    console.log(from)
-    next('/login');
-  }
-};
+//   if (store.state.authData) {
+//     next();
+//   } else {
+//     console.log(from)
+//     next('/login');
+//   }
+// };
 
 const isLoggedIn = (to, from, next) => {
   if (store.state.authData && to.path !== '/') {
@@ -30,41 +30,23 @@ const routes = [
     component: HomeView
   },
   {
-    path: '/Hotels&Destination',
-    name: 'Hotels&Destination',
+    path: '/boliger-til-salg',
+    name: 'boliger-til-salg',
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
+    component: () => import('../views/ListingsView.vue'),
   },
   {
-    path: '/Rooms',
-    name: 'Rooms',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue'),
-    beforeEnter: guard,
-
-  },
-  {
-    path: '/Reservation',
-    name: 'Reservation',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue'),
-    beforeEnter: guard,
-
+    path: '/boliger-til-salg/:id',
+    name: 'boliger-til-salg:id',
+    component: () => import('../views/ListingDetailsView.vue'),
   },
   {
     path: '/Login',
     name: 'Login',
     beforeEnter: isLoggedIn,
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/LoginView.vue')
+    component: () => import('../views/LoginView.vue')
   }
 ]
 

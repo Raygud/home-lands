@@ -2,7 +2,6 @@
     <div class="Statement-Container">
 
         <h2>{{ Title }}</h2>
-        <p>{{ Message }}</p>
     </div>
 
 </template>
@@ -11,10 +10,6 @@
 export default {
     props: {
         Title: {
-            type: String,
-            required: true
-        },
-        Message: {
             type: String,
             required: true
         }

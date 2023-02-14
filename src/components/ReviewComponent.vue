@@ -103,6 +103,7 @@ export default {
     gap: 0.5vw;
     padding-bottom: 2vw;
     padding-top: 1.5vw;
+    overflow: hidden;
 
 
 
