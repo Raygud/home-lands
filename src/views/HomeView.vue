@@ -1,11 +1,11 @@
 <template>
   <div class="home">
-    <ImageSlider/>
-    <FocusedOffers/>
-    <StatementComponent Title="Det siger kunderne:"/>
-    <ReviewComponent/>
-    <StatementComponent Title="Mød vores ansatte:"/>
-    <OurStaff/>
+    <ImageSlider />
+    <FocusedOffers />
+    <StatementComponent Title="Det siger kunderne:" />
+    <ReviewComponent />
+    <StatementComponent Title="Mød vores ansatte:" />
+    <OurStaff />
   </div>
 </template>
 
@@ -25,6 +25,6 @@ export default {
     StatementComponent,
     ReviewComponent,
     OurStaff
-}
+  }
 }
 </script>

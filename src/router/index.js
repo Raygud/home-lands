@@ -14,11 +14,11 @@ const guard = (to, from, next) => {
 };
 
 const isLoggedIn = (to, from, next) => {
-  if (!store.state.authData && to.path !== '/Login') {
+  if (store.state.authData && to.path !== '/') {
     console.log(from.path)
-    next();
-  } else {
     next("/");
+  } else {
+    next();
   }
 };
 

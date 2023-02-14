@@ -1,27 +1,27 @@
 <template>
     <header>
         <nav>
-            <router-link class="Logo" to="/">HomeLands</router-link> 
+            <router-link class="Logo" to="/">HomeLands</router-link>
             <ol>
                 <router-link to="/">Forside</router-link> |
-            <router-link to="/Cart">Boliger til salg</router-link>
-            <router-link v-if="!authData" to="/Login"> | Login</router-link>
+                <router-link to="/Cart">Boliger til salg</router-link>
+                <router-link v-if="!authData" to="/Login"> | Login</router-link>
             </ol>
 
             <input type="text">
 
             <div @click="DropDown" class="User-Tag" v-if="authData">
-            <span>{{ authData? authData.user.firstname.substr(0, 1): null }}</span>
-            <div @blur="DropDown" :class="isDropped ? 'User-Tag__Drop-Down __Show' : 'User-Tag__Drop-Down __Hide'">
-                <ol>
-                    <li><font-awesome-icon icon="fa-solid fa-user" /> Your profile</li>
-                    <li><font-awesome-icon icon="fa-solid fa-gear" />Settings</li>
-                    <li>
-                        <LogOut />
-                    </li>
-                </ol>
+                <span>{{ authData? authData.user.firstname.substr(0, 1): null }}</span>
+                <div @blur="DropDown" :class="isDropped ? 'User-Tag__Drop-Down __Show' : 'User-Tag__Drop-Down __Hide'">
+                    <ol>
+                        <li><font-awesome-icon icon="fa-solid fa-user" /> Your profile</li>
+                        <li><font-awesome-icon icon="fa-solid fa-gear" />Settings</li>
+                        <li>
+                            <LogOut />
+                        </li>
+                    </ol>
+                </div>
             </div>
-        </div>
 
         </nav>
         <div class="Inverted-Triangle"></div>
@@ -55,8 +55,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
-.Inverted-Triangle{
+.Inverted-Triangle {
 
     position: absolute;
     bottom: -49%;
@@ -69,53 +68,56 @@ export default {
 }
 
 
-header{
+header {
     position: relative;
     background-color: #000000;
     display: flex;
     justify-content: flex-end;
-    height: 5.1vw;
+    height: 3.8vw;
 
 
-nav {
-    position: relative;
-  width: 90%;
-  padding: 0.4vw;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  gap: 1.5vw;
+    nav {
+        position: relative;
+        width: 90%;
+        padding: 0.4vw;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 1.5vw;
+        font-size: 1.3vw;
 
-  a {
-    font-weight: bold;
-    color: #ffffff;
+        a {
+            font-weight: bold;
+            color: #ffffff;
 
-    &.router-link-exact-active {
-      color: #AF7627;
+            &.router-link-exact-active {
+                color: #AF7627;
+            }
+        }
     }
-  }
+
+    .Logo {
+        position: absolute;
+        left: 0;
+        top: 15%;
+        background-color: #AF7627;
+        padding: 1vw;
+        font-size: 2.4vw;
+        color: #ffffff !important;
+        z-index: 99;
+        border: 2px solid black;
+    }
 }
 
-.Logo{
-    position: absolute;
-    left: 0;
-    top: 15%;
-    background-color: #AF7627;
-    padding: 1vw;
-    font-size: 2.4vw;
-    color: #ffffff !important;
-    z-index: 99;
-}
-}
 .User-Tag {
     display: flex;
     justify-content: center;
-    background-color: greenyellow;
+    background-color: rgb(196, 75, 39);
     border-radius: 50%;
     padding: 0.4vw;
     height: 70%;
     aspect-ratio: 1/1;
-    font-size: 3vw;
+    font-size: 200%;
     text-align: center;
     font-weight: bold;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;

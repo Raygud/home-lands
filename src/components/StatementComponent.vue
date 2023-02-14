@@ -30,11 +30,11 @@ export default {
 </script>
 
 <style scoped>
-
 .Statement-Container {
     width: 45vw;
     margin: auto;
     margin-top: 3vw;
+    padding-bottom: 3vw;
 }
 
 h2 {
