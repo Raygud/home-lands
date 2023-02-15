@@ -1,7 +1,9 @@
 <template>
+
     <div v-if="listing.images" class="Listings-Details-Container"
         :style="{ backgroundImage: 'url(' + listing.images[0].filename.large + ')' }"></div>
     <div v-else></div>
+    {{ listingLon }}
     <div v-if="listing.images">
 
         <div v-if="listing.energy_label_name" class="Listings-Details-Container__Info">
@@ -15,8 +17,8 @@
                 <ol class="Info__Button-Menu">
                     <li @click="ocModal"><font-awesome-icon class="Icon" icon="fa-solid fa-camera" /></li>
                     <li @click="ocFloor"><font-awesome-icon class="Icon" icon="fa-solid fa-ruler-combined" /></li>
-                    <li><font-awesome-icon class="Icon" icon="fa-solid fa-location-dot" /></li>
-                    <li @click="submitFavorite"
+                    <li @click="ocMap"><font-awesome-icon class="Icon" icon="fa-solid fa-location-dot" /></li>
+                    <li @click="deleteFavorite"
                         v-if="this.$store.state.favoriteListings?.find(item => item.home_id === listing.id)">
                         <font-awesome-icon class="Icon __Color" icon="fa-solid fa-heart" />
                     </li>
@@ -85,13 +87,15 @@
 
     <ImageModal :Images="listing.images" ref="ModalRef" />
     <FloorPlan :Images="listing" ref="FloorRef" />
+    <LeafletMap ref="MapRef" v-if="listingLat && listingLon" :lat="listingLat" :lon="listingLon" />
 
 </template>
 
 <script>
 import FloorPlan from '@/components/FloorPlan.vue';
 import ImageModal from '@/components/ImageModal.vue';
-import { fetchData, postData } from '@/functions/Fetcher';
+import LeafletMap from '@/components/LeafletMap.vue';
+import { fetchData, postData, deleteData, getGeo } from '@/functions/Fetcher';
 import { mapMutations } from 'vuex';
 
 
@@ -103,6 +107,8 @@ export default {
     data() {
         return {
             listing: [],
+            listingLat: "",
+            listingLon: "",
             energy: [{ value: "A", color: "#01a54e" }, { value: "B", color: "#4cb848" }, { value: "C", color: "#4cb848" }, { value: "D", color: "#fef102" }, { value: "E", color: "#fcb913" }, { value: "F", color: "#f36e21" }, { value: "G", color: "#ee1d23" }],
         };
     },
@@ -111,17 +117,28 @@ export default {
             return this.$route.params.id;
         },
     },
-    mounted() {
+    mounted() { //HIGHLIGHT this is very nice 😩😍 proud of this
         fetchData(`https://api.mediehuset.net/homelands/homes/${this.id}`)
             .then(data => {
                 this.listing = data.item;
                 console.log(this.listing);
+                getGeo(`${this.listing.address} ${this.listing.zipcode} ${this.listing.city} Denmark`, process.env.VUE_APP_API_KEY)
+                    .then(data => {
+                        this.listingLat = data.features[0].properties.lat
+                        this.listingLon = data.features[0].properties.lon
+                        console.log(this.listingLat);
+                        console.log(this.listingLon);
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    });
             })
             .catch(error => {
                 console.error(error);
             });
+
     },
-    components: { ImageModal, FloorPlan },
+    components: { ImageModal, FloorPlan, LeafletMap },
     methods: {
         ocModal() {
             //calls child function
@@ -131,12 +148,29 @@ export default {
             //calls child function
             this.$refs.FloorRef.openCloseFloor();
         },
+        ocMap() {
+            //calls child function
+            this.$refs.MapRef.openCloseMap();
+        },
         async submitFavorite() {
             console.log(this.$store.state.authData.access_token)
             const body = { home_id: this.listing.id }
             const url = "https://api.mediehuset.net/homelands/favorites";
             const response = await postData(url, body, this.$store.state.authData.access_token);
             console.log(response);
+            this.refreshFavorites()
+        },
+        deleteFavorite() {
+            deleteData(`https://api.mediehuset.net/homelands/favorites/${this.listing.id}`, this.$store.state.authData.access_token)
+                .then(data => {
+                    console.log(data)
+                    this.refreshFavorites()
+                })
+                .catch(error => {
+                    console.error(error);
+                })
+        },
+        refreshFavorites() {
             if (this.$store.state.authData) {
                 fetchData("https://api.mediehuset.net/homelands/favorites", this.$store.state.authData.access_token)
                     .then(data => {
