@@ -1,7 +1,7 @@
 
 <template>
   <NavBar />
-  <router-view class="meno" />
+  <router-view />
   <FooterComponent />
 </template>
 
@@ -19,6 +19,8 @@ export default {
   mounted() {
     const data = JSON.parse(localStorage.getItem("UserAuth"))
     this.setAuthData(data);
+    console.log(data)
+    console.log(this.$store.state.authData.access_token)
     fetchData("https://api.mediehuset.net/homelands/homes")
       .then(data => {
         this.setHousingListings(data.items)
@@ -27,7 +29,18 @@ export default {
       })
       .catch(error => {
         console.error(error);
-      });
+      })
+
+    if (this.authData) {
+      fetchData("https://api.mediehuset.net/homelands/favorites", this.$store.state.authData.access_token)
+        .then(data => {
+          this.setFavoriteListings(data.items)
+          console.log(this.$store.state.favoriteListings)
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    }
   },
   computed: {
     authData() {
@@ -35,7 +48,7 @@ export default {
     },
   },
   methods: {
-    ...mapMutations(['setAuthData', 'setHousingListings', 'setFilteredListings']),
+    ...mapMutations(['setAuthData', 'setHousingListings', 'setFilteredListings', 'setFavoriteListings']),
   },
 }
 </script>
@@ -57,9 +70,6 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #ffffff;
-}
-
-.meno {
   min-height: 100vh;
 }
 </style>

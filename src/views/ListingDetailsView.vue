@@ -1,8 +1,10 @@
 <template>
+    <div v-if="listing.images" class="Listings-Details-Container"
+        :style="{ backgroundImage: 'url(' + listing.images[0].filename.large + ')' }"></div>
+    <div v-else></div>
     <div v-if="listing.images">
-        <div class="Listings-Details-Container"
-            :style="{ backgroundImage: 'url(' + listing.images[0].filename.large + ')' }"></div>
-        <div class="Listings-Details-Container__Info">
+
+        <div v-if="listing.energy_label_name" class="Listings-Details-Container__Info">
             <div class="Info__Initial-Info">
                 <ol>
                     <li>{{ listing.address }}</li>
@@ -11,10 +13,15 @@
 
                 </ol>
                 <ol class="Info__Button-Menu">
-                    <li><font-awesome-icon class="Icon" icon="fa-solid fa-camera" /></li>
-                    <li><font-awesome-icon class="Icon" icon="fa-solid fa-ruler-combined" /></li>
+                    <li @click="ocModal"><font-awesome-icon class="Icon" icon="fa-solid fa-camera" /></li>
+                    <li @click="ocFloor"><font-awesome-icon class="Icon" icon="fa-solid fa-ruler-combined" /></li>
                     <li><font-awesome-icon class="Icon" icon="fa-solid fa-location-dot" /></li>
-                    <li><font-awesome-icon class="Icon" icon="fa-regular fa-heart" /></li>
+                    <li @click="submitFavorite"
+                        v-if="this.$store.state.favoriteListings?.find(item => item.home_id === listing.id)">
+                        <font-awesome-icon class="Icon __Color" icon="fa-solid fa-heart" />
+                    </li>
+                    <li @click="submitFavorite" v-else><font-awesome-icon class="Icon" icon="fa-regular fa-heart" />
+                    </li>
                 </ol>
                 <ol>
                     <li>Kontantpris {{ listing.price }} DKK</li>
@@ -36,7 +43,7 @@
                     <li>Byggeår {{ listing.year_construction }}</li>
                     <li>Ombygget {{ listing.year_rebuilt }}</li>
                     <li>
-                        Energimærke <span
+                        Energimærke <span class="Energy-Rating"
                             v-bind:style="{ 'background-color': energy.find(item => item.value === listing.energy_label_name).color }">
                             {{ listing.energy_label_name }}</span></li>
                     <li>Liggetid [OBJECT, OBJECT]</li>
@@ -67,31 +74,37 @@
                 </div>
             </div>
         </div>
-
+        <div v-else>
+            Loading..
+        </div>
     </div>
-
     <div v-else>
         Loading..
     </div>
+
+
+    <ImageModal :Images="listing.images" ref="ModalRef" />
+    <FloorPlan :Images="listing" ref="FloorRef" />
+
 </template>
 
 <script>
-import { fetchData } from '@/functions/Fetcher';
+import FloorPlan from '@/components/FloorPlan.vue';
+import ImageModal from '@/components/ImageModal.vue';
+import { fetchData, postData } from '@/functions/Fetcher';
+import { mapMutations } from 'vuex';
+
 
 export default {
     setup() {
 
-        const myArray = [];
-        console.log(myArray);
-
-        return {}
+        return {};
     },
     data() {
         return {
             listing: [],
             energy: [{ value: "A", color: "#01a54e" }, { value: "B", color: "#4cb848" }, { value: "C", color: "#4cb848" }, { value: "D", color: "#fef102" }, { value: "E", color: "#fcb913" }, { value: "F", color: "#f36e21" }, { value: "G", color: "#ee1d23" }],
-
-        }
+        };
     },
     computed: {
         id() {
@@ -102,35 +115,67 @@ export default {
         fetchData(`https://api.mediehuset.net/homelands/homes/${this.id}`)
             .then(data => {
                 this.listing = data.item;
-                console.log(this.listing)
+                console.log(this.listing);
             })
             .catch(error => {
                 console.error(error);
             });
     },
+    components: { ImageModal, FloorPlan },
+    methods: {
+        ocModal() {
+            //calls child function
+            this.$refs.ModalRef.openCloseModal();
+        },
+        ocFloor() {
+            //calls child function
+            this.$refs.FloorRef.openCloseFloor();
+        },
+        async submitFavorite() {
+            console.log(this.$store.state.authData.access_token)
+            const body = { home_id: this.listing.id }
+            const url = "https://api.mediehuset.net/homelands/favorites";
+            const response = await postData(url, body, this.$store.state.authData.access_token);
+            console.log(response);
+            if (this.$store.state.authData) {
+                fetchData("https://api.mediehuset.net/homelands/favorites", this.$store.state.authData.access_token)
+                    .then(data => {
+                        this.setFavoriteListings(data.items)
+                        console.log(this.$store.state.favoriteListings)
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    });
+            }
+        },
+        ...mapMutations(['setFavoriteListings']),
+
+    }
 }
 </script>
 
 <style lang="scss" scoped>
+.Main {
+    min-height: 130vh;
+}
+
 div {
     color: black;
 
     .Listings-Details-Container {
-        position: relative;
+        position: absolute;
         width: 100%;
         height: 50vh;
         background-size: cover;
         background-position: bottom 50% center;
+        z-index: -10;
     }
 
     .Listings-Details-Container__Info {
-        position: absolute;
-        left: 0;
-        right: 0;
         margin: auto;
+        margin-top: 20vw;
+        padding-top: 1vw;
         width: 80%;
-        height: 50%;
-        bottom: 10%;
         background-color: rgba(255, 255, 255, 0.842);
         box-shadow: 0vw 0vw 0.4vw rgba(0, 0, 0, 0.397);
         border-radius: 3px;
@@ -167,12 +212,20 @@ div {
     margin: 2vw 2vw 0 2vw;
 }
 
+.Energy-Rating {
+    display: inline-block;
+    width: 1vw;
+    aspect-ratio: 1/1;
+    color: white;
+    font-weight: bolder;
+
+}
+
 .Info__Bottom-Info {
     display: flex;
     justify-content: space-between;
     gap: 10vw;
     margin: 2vw 2vw 0 2vw;
-    background-color: red;
 
     p {
         width: 75%;
@@ -184,5 +237,9 @@ div {
         }
     }
 
+}
+
+.__Color {
+    color: red;
 }
 </style>

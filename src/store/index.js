@@ -5,7 +5,8 @@ export default createStore({
     authData: null,
     isDropped: false,
     housingListings: [],
-    filteredListings: []
+    filteredListings: [],
+    favoriteListings: []
 
   },
   mutations: {
@@ -17,6 +18,9 @@ export default createStore({
     },
     setFilteredListings(state, data) {
       state.filteredListings = data
+    },
+    setFavoriteListings(state, data) {
+      state.favoriteListings = data
     },
     DropDown() {
       this.isDropped = !this.isDropped

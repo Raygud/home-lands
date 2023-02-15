@@ -27,6 +27,8 @@
 </template>
 
 <script>
+import { postData } from '@/functions/Fetcher';
+
 export default {
     setup() {
 
@@ -42,6 +44,13 @@ export default {
     },
     mounted() {
     },
+    methods: {
+        async submitFavorite() {
+            const url = "https://api.mediehuset.net/homelands/favorites";
+            const response = await postData(url, this.Listing.id, this.$store.state.authData.access_token);
+            console.log(response);
+        }
+    }
 
 
 }
@@ -76,7 +85,6 @@ export default {
                 justify-content: center;
                 align-items: center;
                 width: 2vw;
-                background-color: greenyellow;
                 aspect-ratio: 1/1;
                 color: white;
                 font-weight: bolder;
