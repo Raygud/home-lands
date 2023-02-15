@@ -1,6 +1,6 @@
 <template>
     <div class="grid-item" v-if="Listing">
-        <router-link class="Logo" :to="`/boliger-til-salg/${Listing.id}`">
+        <router-link :to="`/boliger-til-salg/${Listing.id}`">
             <img :src="Listing.images[0].filename.medium" alt="">
             <h2>{{ Listing.address }}</h2>
             <ol>

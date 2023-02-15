@@ -12,8 +12,8 @@
                             <div>{{ employee.position }}</div>
                         </div>
                         <div class="Staff-Contact">
-                            <div>Email: {{ employee.email }}</div>
-                            <div>Mobil: {{ employee.phone }}</div>
+                            <div>Email: <a :href="`mailto:+${employee.email}`">{{ employee.email }}</a></div>
+                            <div>Mobil: <a :href="`tel:+${employee.phone}`">{{ employee.phone }}</a></div>
                         </div>
 
                     </div>
