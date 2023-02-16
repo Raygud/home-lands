@@ -1,6 +1,7 @@
 <template>
     <div :class="modalShow ? 'Modal _Hide' : 'Modal _Show'">
         <div class="Map">
+            <!-- hack for re rendering map when modalShow is changed -->
             <l-map :key="`map-${modalShow}-${Math.random()}`" :zoom="zoom" :center="center">
                 <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
                 <l-marker :lat-lng="center"></l-marker>
