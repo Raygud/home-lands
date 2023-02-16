@@ -1,14 +1,12 @@
 <template>
-
     <div :class="modalShow ? 'Modal _Hide' : 'Modal _Show'">
         <div class="Map">
-            <l-map :zoom="zoom" :center="center">
+            <l-map :key="`map-${modalShow}-${Math.random()}`" :zoom="zoom" :center="center">
                 <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
                 <l-marker :lat-lng="center"></l-marker>
             </l-map>
         </div>
         <font-awesome-icon @click="openCloseMap" class="Close" icon="fa-solid fa-circle-xmark" />
-
     </div>
 </template>
 
@@ -46,7 +44,7 @@ export default {
     },
     methods: {
         openCloseMap() {
-            this.modalShow = !this.modalShow
+            this.modalShow = !this.modalShow;
         }
     }
 };
@@ -74,7 +72,7 @@ export default {
         margin: auto auto;
 
         width: 75vw;
-        aspect-ratio: 2/1;
+        height: 40vw;
     }
 
 }
@@ -96,15 +94,3 @@ export default {
     display: none;
 }
 </style>
-
-
-
-
-
-
-
-
-
-
-
-
