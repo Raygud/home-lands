@@ -1,11 +1,6 @@
 <template>
-
-
-
-
-
     <div class="ReviewPreview" v-if="reviews.user">
-        <div>
+        <div class="Center-Review">
             <h3>{{ reviews.title }}</h3>
             <p>"{{ reviews.content }}"</p>
         </div>
@@ -13,7 +8,7 @@
             <li>{{ reviews.user.firstname }} {{ reviews.user.lastname }}</li>
             <li>{{ new Date(parseInt(reviews.created * 1000)).toLocaleString("default", { month: "long" }) }} {{
                 new
-                            Date(parseInt(reviews.created * 1000)).getFullYear()
+                    Date(parseInt(reviews.created * 1000)).getFullYear()
             }}</li>
         </ol>
 
@@ -36,13 +31,11 @@
     </div>
     <div v-else>
         loading..
-    </div>
-
-
-
+</div>
 </template>
 
 <script>
+
 import { fetchData } from '@/functions/Fetcher';
 import { postData } from "@/functions/Fetcher";
 
@@ -97,13 +90,20 @@ export default {
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: 25vh;
+    height: 20vh;
     background-color: #FED9C9;
     color: black;
     gap: 0.5vw;
     padding-bottom: 2vw;
     padding-top: 1.5vw;
     overflow: hidden;
+
+    .Center-Review {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
 
 
 
@@ -141,24 +141,29 @@ export default {
         color: black;
         width: 30%;
         padding: 2vw;
+        gap: 1vw;
 
         .Title {
             grid-column: 1/6;
+            grid-row: 1/4;
             display: flex;
             justify-content: flex-end;
             align-items: center;
             gap: 0.5vw;
+            padding-bottom: 2vw;
 
             input {
                 width: 80%;
                 height: 100%;
                 box-sizing: border-box;
+                border-radius: 5px;
+                border: none;
             }
         }
 
         .Content {
             grid-column: 1/6;
-            grid-row: 2/7;
+            grid-row: 3/7;
 
             display: flex;
             justify-content: flex-end;
@@ -170,11 +175,15 @@ export default {
                 height: 100%;
                 box-sizing: border-box;
                 resize: none;
+                border-radius: 5px;
+                border: none;
             }
         }
 
         button {
             grid-row: 5/7;
+            border-radius: 7px;
+            border: none;
         }
     }
 

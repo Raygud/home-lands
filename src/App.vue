@@ -1,7 +1,7 @@
 
 <template>
   <NavBar />
-  <router-view />
+  <router-view class="minHeight" />
   <FooterComponent />
 </template>
 
@@ -20,7 +20,6 @@ export default {
     const data = JSON.parse(localStorage.getItem("UserAuth"))
     this.setAuthData(data);
     console.log(data)
-    console.log(this.$store.state.authData.access_token)
     fetchData("https://api.mediehuset.net/homelands/homes")
       .then(data => {
         this.setHousingListings(data.items)
@@ -70,6 +69,10 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #ffffff;
+  min-height: 100vh;
+}
+
+.minHeight {
   min-height: 100vh;
 }
 </style>

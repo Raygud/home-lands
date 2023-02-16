@@ -1,5 +1,4 @@
 <template>
-
     <div v-if="listing.images" class="Listings-Details-Container"
         :style="{ backgroundImage: 'url(' + listing.images[0].filename.large + ')' }"></div>
     <div v-else></div>
@@ -18,11 +17,12 @@
                     <li @click="ocModal"><font-awesome-icon class="Icon" icon="fa-solid fa-camera" /></li>
                     <li @click="ocFloor"><font-awesome-icon class="Icon" icon="fa-solid fa-ruler-combined" /></li>
                     <li @click="ocMap"><font-awesome-icon class="Icon" icon="fa-solid fa-location-dot" /></li>
-                    <li @click="deleteFavorite"
-                        v-if="this.$store.state.favoriteListings?.find(item => item.home_id === listing.id)">
+                    <li @click="deleteFavorite" v-if="this.$store.state.favoriteListings?.find(item => item.home_id === listing.id) &&
+                        this.$store.state.authData">
                         <font-awesome-icon class="Icon __Color" icon="fa-solid fa-heart" />
                     </li>
-                    <li @click="submitFavorite" v-else><font-awesome-icon class="Icon" icon="fa-regular fa-heart" />
+                    <li @click="submitFavorite" v-else-if="this.$store.state.authData"><font-awesome-icon class="Icon"
+                            icon="fa-regular fa-heart" />
                     </li>
                 </ol>
                 <ol>
@@ -87,11 +87,13 @@
 
     <ImageModal :Images="listing.images" ref="ModalRef" />
     <FloorPlan :Images="listing" ref="FloorRef" />
-    <LeafletMap ref="MapRef" v-if="listingLat && listingLon" :lat="listingLat" :lon="listingLon" />
-
+<LeafletMap ref="MapRef" v-if="listingLat && listingLon" :lat="listingLat" :lon="listingLon" />
 </template>
 
 <script>
+
+
+
 import FloorPlan from '@/components/FloorPlan.vue';
 import ImageModal from '@/components/ImageModal.vue';
 import LeafletMap from '@/components/LeafletMap.vue';

@@ -3,15 +3,15 @@ import HomeView from '../views/HomeView.vue'
 import store from '@/store';
 
 
-// const guard = (to, from, next) => {
+const guard = (to, from, next) => {
 
-//   if (store.state.authData) {
-//     next();
-//   } else {
-//     console.log(from)
-//     next('/login');
-//   }
-// };
+  if (store.state.authData) {
+    next();
+  } else {
+    console.log(from)
+    next('/login');
+  }
+};
 
 const isLoggedIn = (to, from, next) => {
   if (store.state.authData && to.path !== '/') {
@@ -47,6 +47,18 @@ const routes = [
     name: 'Login',
     beforeEnter: isLoggedIn,
     component: () => import('../views/LoginView.vue')
+  },
+  {
+    path: '/Profile',
+    name: 'Profile',
+    beforeEnter: guard,
+    component: () => import('../views/ProfileView.vue')
+  },
+  {
+    path: '/Profile/Review/:id',
+    name: 'Profile-Review',
+    beforeEnter: guard,
+    component: () => import('../views/ProfileEditView.vue')
   }
 ]
 

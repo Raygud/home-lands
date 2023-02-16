@@ -1,6 +1,8 @@
 <template>
   <div>
     <form @submit.prevent="submitForm">
+      <h2>Login</h2>
+      <p>Indtast dit brugernavn og adgangskode for at logge ind</p>
       <input v-model="username" type="text" placeholder="Username">
       <input v-model="password" type="password" placeholder="Password">
       <button type="submit">Login</button>
@@ -55,3 +57,41 @@ export default {
 
 };
 </script>
+
+<style scoped lang="scss">
+div {
+  display: flex;
+  justify-content: flex-start;
+  margin-left: 9vw;
+  margin-top: 7vw;
+
+  h2 {
+    font-size: 2vw;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 2vw;
+    text-align: left;
+    width: 40%;
+    color: black;
+
+    input {
+      padding: 0.5vw;
+      box-shadow: 0vw 0vw 0.2vw rgba(0, 0, 0, 0.233);
+      border: none;
+      border-radius: 5px;
+    }
+
+    button {
+      width: 20%;
+      height: 2vw;
+      border-radius: 7px;
+      border: none;
+      background-color: #000000;
+      color: white;
+    }
+  }
+}
+</style>

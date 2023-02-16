@@ -16,10 +16,13 @@
             </div>
 
             <div @click="DropDown" class="User-Tag" v-if="authData">
-                <span>{{ authData? authData.user.firstname.substr(0, 1): null }}</span>
+                <span>{{ authData ? authData.user.firstname.substr(0, 1) : null }}</span>
                 <div @blur="DropDown" :class="isDropped ? 'User-Tag__Drop-Down __Show' : 'User-Tag__Drop-Down __Hide'">
                     <ol>
-                        <li><font-awesome-icon icon="fa-solid fa-user" /> Your profile</li>
+                        <li><router-link class="Menu-Link" to="/Profile"><font-awesome-icon icon="fa-solid fa-user" />
+                                Your
+                                profile</router-link>
+                        </li>
                         <li><font-awesome-icon icon="fa-solid fa-gear" />Settings</li>
                         <li>
                             <LogOut />
@@ -30,10 +33,13 @@
 
         </nav>
         <div class="Inverted-Triangle"></div>
-    </header>
+</header>
 </template>
 
 <script>
+
+
+
 import LogOut from './LogOut.vue';
 
 export default {
@@ -192,6 +198,20 @@ header {
                 padding: 0.5vw;
             }
         }
+    }
+
+    .Menu-Link {
+        font-weight: bold;
+        color: #000000;
+
+        &.router-link-exact-active {
+            color: #000000;
+        }
+
+        &:hover {
+            color: #000000;
+        }
+
     }
 
     .__Hide {
