@@ -46,6 +46,7 @@ export default {
     gap: 4vw;
     width: 85%;
     margin: auto;
+    margin-top: 4vw;
 }
 
 </style>
