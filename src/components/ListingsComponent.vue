@@ -9,6 +9,14 @@
 
 <script>
 
+
+
+
+
+
+
+
+
 import ListingCard from './ListingCard.vue';
 
 export default {
@@ -39,5 +47,13 @@ export default {
     gap: 4vw;
     width: 85%;
     margin: auto;
+}
+
+
+/* Media query for phones */
+@media only screen and (max-width: 480px) {
+    .grid-container {
+        grid-template-columns: 1fr;
+    }
 }
 </style>

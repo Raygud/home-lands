@@ -14,25 +14,11 @@
             <p>Du er logget ind som {{ this.$store.state.authData.user.firstname }}</p>
         </div>
 
-</div>
+    </div>
 </template>
 
 <script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-import { fetchData, patchData } from '@/functions/Fetcher';
+import { fetchData, updateData } from '@/functions/Fetcher';
 
 export default {
     setup() {
@@ -74,10 +60,11 @@ export default {
                 });
         },
         updateData() {
-            patchData(`https://api.mediehuset.net/homelands/reviews`, this.formData, this.$store.state.authData.access_token)
+            updateData(`https://api.mediehuset.net/homelands/reviews`, this.formData, this.$store.state.authData.access_token)
                 .then(data => {
                     this.review = data
                     console.log(this.review)
+
                 })
                 .catch(error => {
                     console.error(error);

@@ -11,7 +11,7 @@
                     <li>{{ listing.address }}</li>
                     <li>{{ listing.zipcode }} {{ listing.city }}</li>
                     <li>{{ listing.type }} | {{ listing.floor_space }} m&sup2; | {{ listing.num_rooms }}</li>
-
+                    <li>set {{ listing.num_clicks }} gange</li>
                 </ol>
                 <ol class="Info__Button-Menu">
                     <li @click="ocModal"><font-awesome-icon class="Icon" icon="fa-solid fa-camera" /></li>
@@ -48,7 +48,9 @@
                         Energimærke <span class="Energy-Rating"
                             v-bind:style="{ 'background-color': energy.find(item => item.value === listing.energy_label_name).color }">
                             {{ listing.energy_label_name }}</span></li>
-                    <li>Liggetid [OBJECT, OBJECT]</li>
+                    <li>Liggetid {{ Math.round((new Date() - new Date(listing.date_stamp * 1000)) /
+                        (1000
+                            * 60 * 60 * 24)) }} dage</li>
                 </ol>
                 <ol>
                     <li>Kontantpris {{ listing.price }}</li>
@@ -87,7 +89,7 @@
 
     <ImageModal :Images="listing.images" ref="ModalRef" />
     <FloorPlan :Images="listing" ref="FloorRef" />
-<LeafletMap ref="MapRef" v-if="listingLat && listingLon" :lat="listingLat" :lon="listingLon" />
+    <LeafletMap ref="MapRef" v-if="listingLat && listingLon" :lat="listingLat" :lon="listingLon" />
 </template>
 
 <script>
@@ -97,7 +99,7 @@
 import FloorPlan from '@/components/FloorPlan.vue';
 import ImageModal from '@/components/ImageModal.vue';
 import LeafletMap from '@/components/LeafletMap.vue';
-import { fetchData, postData, deleteData, getGeo } from '@/functions/Fetcher';
+import { fetchData, postData, deleteData, getGeo, patchData } from '@/functions/Fetcher';
 import { mapMutations } from 'vuex';
 
 
@@ -134,6 +136,16 @@ export default {
                     .catch(error => {
                         console.error(error);
                     });
+            })
+            .catch(error => {
+                console.error(error);
+            });
+
+        patchData(`https://api.mediehuset.net/homelands/homes/${this.id}`, this.$store.state.authData.access_token)
+            .then(data => {
+                this.review = data
+                console.log(this.review)
+
             })
             .catch(error => {
                 console.error(error);

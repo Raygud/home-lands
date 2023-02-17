@@ -2,7 +2,7 @@
 <template>
   <NavBar />
   <router-view class="minHeight" />
-<FooterComponent />
+  <FooterComponent />
 </template>
 
 <script>

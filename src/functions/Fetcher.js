@@ -66,13 +66,28 @@ export function getGeo(address, apiKey) {
         })
 }
 
-export function patchData(url, data, token) {
-    console.log(url)
-    console.log(data)
-    console.log(token)
-
+export function updateData(url, data, token) {
     return fetch(url, {
         method: "PUT",
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            return data;
+        })
+        .catch(error => {
+            console.error(error);
+        });
+}
+
+export function patchData(url, data, token) {
+    return fetch(url, {
+        method: "PATCH",
         headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json'
