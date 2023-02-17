@@ -42,11 +42,22 @@ export default {
 <style lang="scss" scoped>
 .grid-container {
     display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4vw;
+    width: 85%;
+    margin: auto;
+    margin-top: 4vw;
+}
+
+@media all and (max-width: 500px)  {
+    .grid-container {
+    display: grid;
     grid-template-columns: repeat(auto-fit, minmax(350px,1fr));
     gap: 4vw;
     width: 85%;
     margin: auto;
     margin-top: 4vw;
 }
+    }
 
 </style>
