@@ -3,8 +3,9 @@ import HomeView from '../views/HomeView.vue'
 import store from '@/store';
 
 
-const guard = (to, from, next) => {
 
+// Check if the user is logged in, if the user is logged in then send him to disired location, if not send user to login page
+const guard = (to, from, next) => {
   if (store.state.authData) {
     next();
   } else {
@@ -13,6 +14,7 @@ const guard = (to, from, next) => {
   }
 };
 
+// Reversed so if the user is logged in he can not access the login page
 const isLoggedIn = (to, from, next) => {
   if (store.state.authData && to.path !== '/') {
     console.log(from.path)
@@ -32,12 +34,15 @@ const routes = [
   {
     path: '/boliger-til-salg',
     name: 'boliger-til-salg',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
     component: () => import('../views/ListingsView.vue'),
   },
   {
+    path: '/boliger-til-salg/filter/:filter',
+    name: 'boliger-til-salg:filter',
+    component: () => import('../views/ListingsView.vue'),
+  },
+  {
+    // :id gives us a dynamic id we can use in our listings details to get the specific listing
     path: '/boliger-til-salg/:id',
     name: 'boliger-til-salg:id',
     component: () => import('../views/ListingDetailsView.vue'),
