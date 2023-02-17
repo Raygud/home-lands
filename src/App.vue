@@ -2,10 +2,11 @@
 <template>
   <NavBar />
   <router-view class="minHeight" />
-  <FooterComponent />
+<FooterComponent />
 </template>
 
 <script>
+
 import NavBar from './components/NavBar.vue';
 import { mapMutations } from 'vuex';
 import FooterComponent from './components/FooterComponent.vue';
@@ -59,6 +60,10 @@ export default {
   text-decoration: none;
   list-style: none;
   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+
+  a {
+    color: inherit;
+  }
 }
 
 

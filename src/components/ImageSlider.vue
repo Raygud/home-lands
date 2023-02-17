@@ -12,12 +12,11 @@
 
       </div>
     </div>
-  </div>
-
-
+</div>
 </template>
 
 <script>
+
 import { fetchData } from '@/functions/Fetcher';
 
 export default {

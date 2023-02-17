@@ -5,11 +5,24 @@
                 <ListingCard v-for="(offer, index) in offers" :key="index" :Listing="offer" />
             </div>Your
         </div>
-    </div>
+</div>
 </template>
 
 <script>
+
+
+
+
+
+
+
+
+
+
+
 import { fetchData } from '@/functions/Fetcher';
+import { Rand } from '@/functions/RandomInt';
+
 import ListingCard from './ListingCard.vue';
 
 export default {
@@ -24,7 +37,9 @@ export default {
     mounted() {
         fetchData("https://api.mediehuset.net/homelands/homes")
             .then(data => {
-                this.offers = data.items.slice(0, 3);
+                const randomInt = Rand(0, 8)
+                console.log(randomInt + " " + (randomInt + 2))
+                this.offers = data.items.slice(randomInt, randomInt + 3);
             })
             .catch(error => {
                 console.error(error);

@@ -4,10 +4,11 @@
             <ListingCard v-for="(offer, index) in filteredData" :key="index" :Listing="offer" />
 
         </div>
-    </div>
+</div>
 </template>
 
 <script>
+
 import ListingCard from './ListingCard.vue';
 
 export default {
@@ -26,11 +27,6 @@ export default {
         },
         filteredData() {
             return this.$store.state.filteredListings;
-        }
-    },
-    methods: {
-        hekki() {
-            this.offers = this.offers.slice(0, 1)
         }
     }
 }

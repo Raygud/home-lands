@@ -1,33 +1,46 @@
 <template>
     <div class="grid-item" v-if="Listing">
+
         <router-link :to="`/boliger-til-salg/${Listing.id}`">
             <img :src="Listing.images[0].filename.medium" alt="">
-            <h2>{{ Listing.address }}</h2>
             <ol>
-                <li>{{ Listing.zipcode }}</li>
-                <li>{{ Listing.type }}</li>
-                <li>
-                    <ol>
-
-                        <li
-                            v-bind:style="{ 'background-color': energy.find(item => item.value === Listing.energy_label_name).color }">
-                            {{ Listing.energy_label_name }}</li>
-                        <li>værelser {{ Listing.num_rooms }},</li>
-                        <li>{{ Listing.floor_space }} m&sup2;</li>
-                        <li>{{ Listing.price.substr(0, 1) }}.{{ Listing.price.substr(1, 3) }}.{{
-                            Listing.price.substr(4, Listing.price.length)
-                        }} DKK</li>
-                    </ol>
-
+                <li class="Adress">
+                    <h2>{{ Listing.address }}</h2>
+                    <div class="Favorite">
+                <li @click.prevent @click="deleteFavorite" v-if="this.$store.state.favoriteListings?.find(item => item.home_id === Listing.id) &&
+                    this.$store.state.authData">
+                    <font-awesome-icon class="Icon __Color" icon="fa-solid fa-heart" />
                 </li>
-            </ol>
-        </router-link>
+                <li @click.prevent @click="submitFavorite" v-else-if="this.$store.state.authData"><font-awesome-icon
+                        class="Icon" icon="fa-regular fa-heart" />
+                </li>
     </div>
-    <div v-else>loading..</div>
+    </li>
+    <li>{{ Listing.zipcode }}</li>
+    <li>{{ Listing.type }}</li>
+    <li>
+        <ol>
+
+            <li v-bind:style="{ 'background-color': energy.find(item => item.value === Listing.energy_label_name).color }">
+                {{ Listing.energy_label_name }}</li>
+            <li>værelser {{ Listing.num_rooms }},</li>
+            <li>{{ Listing.floor_space }} m&sup2;</li>
+            <li>{{ Listing.price.substr(0, 1) }}.{{ Listing.price.substr(1, 3) }}.{{
+                Listing.price.substr(4, Listing.price.length)
+            }} DKK</li>
+        </ol>
+
+    </li>
+    </ol>
+    </router-link>
+    </div>
+<div v-else>loading..</div>
 </template>
 
 <script>
-import { postData } from '@/functions/Fetcher';
+
+import { mapMutations } from 'vuex';
+import { postData, deleteData, fetchData } from '@/functions/Fetcher';
 
 export default {
     setup() {
@@ -46,10 +59,37 @@ export default {
     },
     methods: {
         async submitFavorite() {
+            console.log(this.$store.state.authData.access_token)
+            const body = { home_id: this.Listing.id }
             const url = "https://api.mediehuset.net/homelands/favorites";
-            const response = await postData(url, this.Listing.id, this.$store.state.authData.access_token);
+            const response = await postData(url, body, this.$store.state.authData.access_token);
             console.log(response);
-        }
+            this.refreshFavorites()
+        },
+        deleteFavorite() {
+            deleteData(`https://api.mediehuset.net/homelands/favorites/${this.Listing.id}`, this.$store.state.authData.access_token)
+                .then(data => {
+                    console.log(data)
+                    this.refreshFavorites()
+                })
+                .catch(error => {
+                    console.error(error);
+                })
+        },
+        refreshFavorites() {
+            if (this.$store.state.authData) {
+                fetchData("https://api.mediehuset.net/homelands/favorites", this.$store.state.authData.access_token)
+                    .then(data => {
+                        this.setFavoriteListings(data.items)
+                        console.log(this.$store.state.favoriteListings)
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    });
+            }
+        },
+        ...mapMutations(['setFavoriteListings']),
+
     }
 
 
@@ -58,6 +98,7 @@ export default {
 
 <style lang="scss" scoped>
 .grid-item {
+    position: relative;
     padding: 1.5vw;
     text-align: left;
     background-color: rgb(255, 255, 255);
@@ -95,5 +136,18 @@ export default {
             }
         }
     }
+}
+
+.__Color {
+    color: red;
+}
+
+.Favorite {
+    font-size: 2vw;
+}
+
+.Adress {
+    display: flex;
+    justify-content: space-between;
 }
 </style>

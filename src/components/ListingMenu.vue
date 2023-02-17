@@ -8,10 +8,23 @@
             <option value="Ejerlejlighed">Ejerlejlighed</option>
             <option value="Andelsbolig">Andelsbolig</option>
         </select>
-    </div>
+</div>
 </template>
 
 <script>
+
+
+
+
+
+
+
+
+
+
+
+
+
 import PriceSlider from "@/components/PriceSlider.vue"
 import { mapMutations } from 'vuex';
 
@@ -38,12 +51,17 @@ export default {
 
 <style lang="scss" scoped>
 div {
+    width: 85%;
+    margin: auto;
     display: flex;
     justify-content: space-between;
-    background-color: aqua;
+    height: 2vw;
+    color: black;
 }
 
 h1 {
     color: black;
+    width: 100%;
+    text-align: left;
 }
 </style>
