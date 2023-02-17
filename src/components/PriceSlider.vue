@@ -38,6 +38,7 @@ export default {
     },
     methods: {
         Min(e) {
+            // input is bound to this function
             this.priceMin = e.target.value
             this.priceFilter()
         },
@@ -47,6 +48,7 @@ export default {
         },
         ...mapMutations(['setFilteredListings']),
         priceFilter() {
+            // if there is either a max or min value filter by that value
             if (this.priceMax > 0 || this.priceMin) {
                 this.setFilteredListings(this.$store.state.housingListings.filter(_ => parseInt(_.price) >= this.priceMin && parseInt(_.price) <= this.priceMax))
             } else {

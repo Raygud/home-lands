@@ -4,13 +4,12 @@
       <div class="Slider" :style="computedStyle">
         <img v-for="(product, index) in images" :key="index" :src="product.image[0]" />
       </div>
-      <div class="Image-Slider-Buttons-Container">
+      <div class="Arrow-Navigation">
 
-        <button
-          v-bind:style="{ backgroundColor: position.substring(0, position.length - 2) == positions ? 'rgba(255, 255, 255, 0.99)' : 'rgba(100, 100, 100, 0.8)' }"
-          @click="SlideMove($event, `${positions}vw`)" v-for="positions in positionValues" :key="positions"></button>
+<font-awesome-icon  icon="fa-solid fa-circle-chevron-left" @click="changeSlide('left')" />
+<font-awesome-icon class="Flip" icon="fa-solid fa-circle-chevron-left" @click="changeSlide('right')" />
 
-      </div>
+</div>
     </div>
 </div>
 </template>
@@ -22,7 +21,7 @@ import { fetchData } from '@/functions/Fetcher';
 export default {
   data() {
     return {
-      position: '-100vw',
+      position: '-100',
       positionValues: [0, -100, -200],
       images: []
 
@@ -32,14 +31,25 @@ export default {
   computed: {
     computedStyle() {
       return {
-        left: this.position
+        left: this.position+"vw"
       }
     }
   },
   methods: {
     SlideMove(event, value) {
       this.position = value
-    }
+    },
+    changeSlide(direction){
+      if(direction == "right" && parseInt(this.position ) > -200){
+      this.position = parseInt(this.position )- 100
+      }
+      else if(direction == "left" && parseInt(this.position ) < 0){
+        this.position = parseInt(this.position ) + 100
+      }
+}
+    
+    
+    
   },
   mounted() {
     fetchData("https://api.mediehuset.net/homelands/images")
@@ -55,7 +65,7 @@ export default {
 
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .Image-Slider-Container {
   position: relative;
   width: 100%;
@@ -103,4 +113,25 @@ button {
 .currentButton {
   background-color: black;
 }
+
+.Arrow-Navigation {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        width: 90%;
+        height: 100%;
+        margin: auto auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 2.5vw;
+        color: white;
+        user-select: none;
+
+        .Flip {
+            transform: scale(-1, 1);
+
+        }
+    }
 </style>

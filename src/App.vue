@@ -18,9 +18,11 @@ export default {
   },
   components: { NavBar, FooterComponent },
   mounted() {
+    // if we are logged in we find the data in our local storage(persisting our login)
     const data = JSON.parse(localStorage.getItem("UserAuth"))
+    // set our auth.state to the local storage value if it is empty then auth is undefined = we are not looged in
     this.setAuthData(data);
-    console.log(data)
+    // fetch all the data we need and save it in state
     fetchData("https://api.mediehuset.net/homelands/homes")
       .then(data => {
         this.setHousingListings(data.items)
@@ -75,6 +77,7 @@ export default {
   text-align: center;
   color: #ffffff;
   min-height: 100vh;
+  max-width: 100%;
 }
 
 .minHeight {

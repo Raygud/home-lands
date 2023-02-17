@@ -38,7 +38,7 @@ export default {
         .then(response => response.json())
         .then(data => {
           if (data.status != 'data.status') {
-
+            //set user state in vuex and local storage(localstorage to persist the login(i would not do this in prodution))
             this.setAuthData(data);
             localStorage.setItem("UserAuth", JSON.stringify(data));
             window.location.reload()
@@ -52,6 +52,7 @@ export default {
           console.error(error);
         });
     },
+    // vuex state
     ...mapMutations(['setAuthData']),
   },
 

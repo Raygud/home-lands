@@ -94,7 +94,6 @@ export default {
                     justify-content: center;
                     align-items: center;
                     width: 2vw;
-                    background-color: greenyellow;
                     aspect-ratio: 1/1;
                     color: white;
                     font-weight: bolder;
@@ -113,7 +112,7 @@ export default {
             }
 
             .Staff-Contact {
-                height: 2vw;
+                height: auto;
                 overflow: hidden;
             }
         }

@@ -62,10 +62,8 @@ export default {
             const response = await postData(url, this.formData, this.$store.state.authData.access_token);
             console.log(response);
         },
-        reviewSlide() {
-            this.isActive = !this.isActive
-        },
         deleteReview(reviewId) {
+            // confirm that you want to delete before deleting(i accidentally deleted a review i did not want to delete so i implemented this feature)
             const isConfirmed = confirm("Do you want to continue?");
             if (isConfirmed) {
                 deleteData(`https://api.mediehuset.net/homelands/reviews/${reviewId}`, this.$store.state.authData.access_token)

@@ -1,10 +1,8 @@
 <template>
-    <div>
         <div class="grid-container">
             <ListingCard v-for="(offer, index) in filteredData" :key="index" :Listing="offer" />
 
         </div>
-</div>
 </template>
 
 <script>
@@ -35,7 +33,8 @@ export default {
         },
         filteredData() {
             return this.$store.state.filteredListings;
-        }
+        },
+        
     }
 }
 </script>
@@ -43,17 +42,10 @@ export default {
 <style lang="scss" scoped>
 .grid-container {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(350px,1fr));
     gap: 4vw;
     width: 85%;
     margin: auto;
 }
 
-
-/* Media query for phones */
-@media only screen and (max-width: 480px) {
-    .grid-container {
-        grid-template-columns: 1fr;
-    }
-}
 </style>

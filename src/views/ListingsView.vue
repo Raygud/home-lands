@@ -13,7 +13,12 @@ export default {
     setup() {
         return {};
     },
-    components: { ListingsComponent, ListingMenu }
+    components: { ListingsComponent, ListingMenu },
+    computed: {
+        paramFilter() {
+            return this.$route.params.filter;
+        },
+    },
 }
 </script>
 

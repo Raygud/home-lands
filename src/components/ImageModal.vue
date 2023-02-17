@@ -6,8 +6,8 @@
 
         <div class="Arrow-Navigation">
 
-            <font-awesome-icon icon="fa-solid fa-circle-chevron-left" @click="flipImg('left')" />
-            <font-awesome-icon class="Flip" icon="fa-solid fa-circle-chevron-left" @click="flipImg('right')" />
+            <font-awesome-icon  icon="fa-solid fa-circle-chevron-left" @click="changeSlide('left')" />
+            <font-awesome-icon v-if="activeImg != this.Images.length - 1" class="Flip" icon="fa-solid fa-circle-chevron-left" @click="changeSlide('right')" />
 
         </div>
     </div>
@@ -36,7 +36,7 @@ export default {
 
     },
     methods: {
-        flipImg(direction) {
+        changeSlide(direction) {
             if (direction == "right" && this.activeImg != this.Images.length - 1) {
                 this.activeImg = this.activeImg + 1
             }

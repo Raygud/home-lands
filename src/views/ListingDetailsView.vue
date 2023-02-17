@@ -2,7 +2,6 @@
     <div v-if="listing.images" class="Listings-Details-Container"
         :style="{ backgroundImage: 'url(' + listing.images[0].filename.large + ')' }"></div>
     <div v-else></div>
-    {{ listingLon }}
     <div v-if="listing.images">
 
         <div v-if="listing.energy_label_name" class="Listings-Details-Container__Info">

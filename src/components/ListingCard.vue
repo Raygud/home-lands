@@ -112,6 +112,7 @@ export default {
 
     img {
         width: 100%;
+        aspect-ratio: 1/0.8;
     }
 
     li:last-child {

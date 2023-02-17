@@ -3,23 +3,12 @@
         <div class="Grid-Position">
             <div class="grid-container">
                 <ListingCard v-for="(offer, index) in offers" :key="index" :Listing="offer" />
-            </div>Your
+            </div>
         </div>
 </div>
 </template>
 
 <script>
-
-
-
-
-
-
-
-
-
-
-
 import { fetchData } from '@/functions/Fetcher';
 import { Rand } from '@/functions/RandomInt';
 
@@ -50,20 +39,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.Grid-Position {
-    position: relative;
-    height: 42vh;
-}
 
 .grid-container {
-    position: absolute;
-    top: -15%;
-    left: 0;
-    right: 0;
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(350px,1fr));
     gap: 4vw;
-    width: 85%;
+    max-width: 85%;
     margin: auto;
+    margin-top: -10%;
 }
 </style>

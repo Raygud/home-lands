@@ -17,6 +17,7 @@ export default {
 
     ...mapActions(['LogOut']),
     logout() {
+      // clear vuex and local state
       this.LogOut().then(console.log(store.state.authData))
       localStorage.removeItem("UserAuth")
       window.location.reload()

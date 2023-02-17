@@ -39,12 +39,14 @@ export default {
     methods: {
         ...mapMutations(['setFilteredListings']),
         TypeFilter(e) {
-            if (e.target.value != "") {
+            if (e.target.value != "") { //get value from selected and check if listing.type is = to that value
                 this.setFilteredListings(this.$store.state.housingListings.filter(_ => _.type === e.target.value))
             } else {
+                // if selected has no value revert to all listings
                 this.setFilteredListings(this.$store.state.housingListings)
             }
             if (e.target.value === "Favorit") {
+                    // if listing = favorit map over all favorite listings returning an array of all the ids, then check if the listing.id exists in the favorites array
                 const favoriteHomeIds = this.$store.state.favoriteListings.map(listing => listing.home_id)
                 const filteredListings = this.$store.state.housingListings.filter(listing => favoriteHomeIds.includes(listing.id))
                 this.setFilteredListings(filteredListings)

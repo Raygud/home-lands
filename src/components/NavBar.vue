@@ -1,17 +1,19 @@
 <template>
     <header>
         <nav>
-            <router-link class="Logo" to="/">HomeLands</router-link>
+            <router-link class="Logo WebOnly" to="/">HomeLands</router-link>
             <ol>
-                <router-link to="/">Forside</router-link> |
-                <router-link to="/boliger-til-salg">Boliger til salg</router-link>
+                <router-link class="WebOnly" to="/">Forside</router-link> |
+                <router-link class="WebOnly" to="/boliger-til-salg">Boliger til salg</router-link>
                 <router-link v-if="!authData" to="/Login"> | Login</router-link>
             </ol>
 
             <div class="Nav-Search-bar">
-                <input type="text" placeholder="Indtast søgord">
+                <input v-on:input="SearchString" type="text" placeholder="Indtast søgord">
                 <button>
+                    <router-link @click="Search" :to="`/boliger-til-salg/filter/${this.searchFilter}`">
                     <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
+                </router-link> 
                 </button>
             </div>
 
@@ -37,9 +39,7 @@
 </template>
 
 <script>
-
-
-
+import { mapMutations } from 'vuex';
 import LogOut from './LogOut.vue';
 
 export default {
@@ -49,6 +49,7 @@ export default {
     data() {
         return {
             isDropped: false,
+            searchFilter: ''
         }
     },
     computed: {
@@ -60,12 +61,17 @@ export default {
     methods: {
         DropDown() {
             this.isDropped = !this.isDropped
-        }
+        },
+        SearchString(e){
+            this.searchFilter = e.target.value
+        },
+    ...mapMutations(['setFilteredListings']),
     },
 }
 </script>
 
 <style lang="scss" scoped>
+
 @font-face {
     font-family: OdibeeSans;
     src: url(@/assets/fonts/OdibeeSans-Regular.ttf);
@@ -223,4 +229,34 @@ header {
     }
 
 }
+
+@media all and (max-width: 390px)  {
+    header {
+        
+        height: 15vw;
+        nav{
+            width: 100%;
+            
+            a{
+                font-size: 5vw;
+            }
+        }
+    }
+    .User-Tag__Drop-Down {
+        width: 40vw !important;
+        font-size: 5vw !important;
+    }
+
+    .WebOnly{
+        display: none;
+    }
+
+    .Nav-Search-bar{
+        margin: auto;
+    }
+
+}
+
+
+
 </style>
